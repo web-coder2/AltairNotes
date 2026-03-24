@@ -20,7 +20,7 @@ function App() {
     content: ''
   })
 
-  const [visibleNote, setVisibleNode] = useState(null)
+  const [visibleNote, setVisibleNote] = useState(null)
 
   const staticArray = [
     { date: new Date, title: "I крестовый поход", content: 'тогда крестоносцы пришли в масиаф ...' },
@@ -35,15 +35,14 @@ function App() {
     setShowNote(false)
   }
 
-  const setVisibleNote = (e) => {
-    setVisibleNode(e)
+  const setVisibleNotes = (e) => {
+    setVisibleNote(e)
     setShowNote(true)
   }
 
   const handleFormSubmit = (e) => {
 
     e.preventDefault()
-
     let formTarget = e.target
 
     let newItem = {
@@ -53,11 +52,7 @@ function App() {
     }
 
     staticArray.push(newItem)
-
-    console.log(staticArray)
-
     setArrayNotes(staticArray)
-
   }
 
   return (
@@ -71,7 +66,7 @@ function App() {
           {// TODO: позже когда будет готов бэкенд получать данные с апишки и рендерить с респонса вместо статики
             arrayNotes.map((item) => {
               return (
-                <div onClick={() => setVisibleNote(item)}>
+                <div onClick={() => setVisibleNotes(item)}>
                   <Notes date={item.date} title={item.title} content={item.content} />
                 </div>
               )
@@ -85,6 +80,7 @@ function App() {
 
           {showNote ? (
             <Notes date={visibleNote.date} title={visibleNote.title} content={visibleNote.content} />
+            // TODO для просмотра полной версии заметки исопльзовать другйо компонент с другим дизайном (более шире)
         ) : (
             <form onSubmit={handleFormSubmit}>
               <input name='date' type='date' />
