@@ -1,13 +1,9 @@
 .notes-card {
     background-color: #2e2e2e;
-    border-radius: 8px;
+    border-radius: 25px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     padding: 8px;
-    max-width: 200px;
-    margin: 0px auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    width: 200px;
     transition: box-shadow 0.3s ease;
 }
   
@@ -20,17 +16,6 @@
     font-size: 20px;
     margin-bottom: 10px;
     color: #ecf0f1;
-}
-  
-.notes-body {
-    flex: 1;
-}
-  
-.notes-content {
-    font-size: 15px;
-    color: #bdc3c7;
-    line-height: 1.5;
-    margin-bottom: 20px;
 }
   
 .notes-date {

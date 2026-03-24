@@ -1,0 +1,37 @@
+.reader-container {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  border: 2px solid #444;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 600px;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  font-family: 'Arial', sans-serif;
+}
+
+.reader-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+}
+
+.reader-content {
+  padding: 15px;
+  background-color: #2c2c2c;
+  border-radius: 6px;
+}
+
+.reader-text {
+  font-size: 1.1em;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.reader-date {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 15px;
+  font-size: 0.9em;
+  opacity: 0.7;
+}

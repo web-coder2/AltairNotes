@@ -5,6 +5,7 @@ import axios from 'axios'
 import dayjs from 'dayjs'
 
 import Notes from './Notes/Notes'
+import Reader from './Reader/Reader'
 
 function App() {
 
@@ -67,7 +68,7 @@ function App() {
             arrayNotes.map((item) => {
               return (
                 <div onClick={() => setVisibleNotes(item)}>
-                  <Notes date={item.date} title={item.title} content={item.content} />
+                  <Notes date={item.date} title={item.title} />
                 </div>
               )
             })
@@ -76,10 +77,10 @@ function App() {
         </div>
 
         <div class="main-root-div">
-          <h2>Заметки Альтаира</h2>
+          <h2 class="root-title">Заметки Альтаира</h2>
 
           {showNote ? (
-            <Notes date={visibleNote.date} title={visibleNote.title} content={visibleNote.content} />
+            <Reader date={visibleNote.date} title={visibleNote.title} content={visibleNote.content} />
             // TODO для просмотра полной версии заметки исопльзовать другйо компонент с другим дизайном (более шире)
         ) : (
             <form onSubmit={handleFormSubmit}>
