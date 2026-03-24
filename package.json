@@ -1,0 +1,14 @@
+{
+  "name": "altairnotes",
+  "version": "1.0.0",
+  "description": "приложение на react node express заметки Альтаира",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "webcoder2",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
