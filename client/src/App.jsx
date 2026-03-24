@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import './App.css'
 
 import axios from 'axios'
@@ -9,35 +9,21 @@ import Reader from './Reader/Reader'
 
 function App() {
 
-  // TODO: в div с класом main-root-div выводить в 
-  // 1)заисимсоти от булевого значения либо фомру для создания новой записи
-  // 2)либо полный контенет с тайтлом и датой записи выбраной карточки (через onClick сделать)
-  // 3)выше сделать типа div в котором будет типа логотипа красиов чтобы был
-
   const [showNote, setShowNote] = useState(false)
-  const [formData, setFormData] = useState({
-    date: dayjs(new Date()).format('YYYY-MM-DD'),
-    title: '',
-    content: ''
-  })
-
   const [visibleNote, setVisibleNote] = useState(null)
 
-  const staticArray = [
-    { date: new Date, title: "I крестовый поход", content: 'тогда крестоносцы пришли в масиаф ...' },
-    { date: new Date, title: "Джубаир", content: 'тогда я опправился в Дамаск убить джубаира ...' },
-    { date: new Date, title: "Робер де Сабле", content: 'я пошел в арсуф убить робера я смог' },
-  ]
 
-  const [arrayNotes, setArrayNotes] = useState(staticArray)
+  const formData = useRef({ date: '', title: '', content: '' })
+  const allNotes = useRef([])
+
 
 
   const changeShowNoteState = (e) => {
     setShowNote(false)
   }
 
-  const setVisibleNotes = (e) => {
-    setVisibleNote(e)
+  const setVisibleNotes = (note) => {
+    setVisibleNote(note)
     setShowNote(true)
   }
 
@@ -46,14 +32,63 @@ function App() {
     e.preventDefault()
     let formTarget = e.target
 
-    let newItem = {
+    formData.current = {
       date: formTarget[0].value,
       title: formTarget[1].value,
       content: formTarget[2].value,
     }
 
-    staticArray.push(newItem)
-    setArrayNotes(staticArray)
+    createNewNote()
+  }
+
+  async function getAllNotes() {
+    try {
+
+      let path = 'http://localhost:3000/api/note/read'
+
+      const response = await axios.get(path, {
+        date: formData['date'],
+        title: formData['title'],
+        content: formData['content']
+      })
+
+      allNotes.current = response.data.notes
+
+      console.log(allNotes)
+
+    } catch (e) {
+      console.log(e.message)
+    }
+  }
+
+
+  getAllNotes();
+
+
+  async function createNewNote() {
+
+    try {
+
+      let path = 'http://localhost:3000/api/note/create'
+
+      console.log(formData)
+
+      let date = formData.current.date
+      let title = formData.current.title
+      let content = formData.current.content
+
+      const response = await axios.post(path, {
+        date: date,
+        title: title,
+        content: content
+      })
+
+      await getAllNotes()
+
+    } catch (e) {
+      console.log(e.message)
+    }
+
   }
 
   return (
@@ -64,10 +99,10 @@ function App() {
         <div class="notes-container">
           <button class="button-dark" onClick={changeShowNoteState}>Создать новое воспоминание</button>
 
-          {// TODO: позже когда будет готов бэкенд получать данные с апишки и рендерить с респонса вместо статики
-            arrayNotes.map((item) => {
+          {
+            allNotes.current.map((item, index) => {
               return (
-                <div onClick={() => setVisibleNotes(item)}>
+                <div key={index} onClick={() => setVisibleNotes(item)}>
                   <Notes date={item.date} title={item.title} />
                 </div>
               )
@@ -81,7 +116,6 @@ function App() {
 
           {showNote ? (
             <Reader date={visibleNote.date} title={visibleNote.title} content={visibleNote.content} />
-            // TODO для просмотра полной версии заметки исопльзовать другйо компонент с другим дизайном (более шире)
         ) : (
             <form onSubmit={handleFormSubmit}>
               <input name='date' type='date' />
