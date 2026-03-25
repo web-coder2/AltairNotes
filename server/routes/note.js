@@ -35,6 +35,24 @@ router.post('/api/note/create', async (req, res) => {
 
 })
 
+router.post('/api/note/delete', async (req, res) => {
+    try {
+
+        const { noteId } = req.body
+
+        const resultOfDelte = await NoteModel.findOneAndDelete({ _id: noteId })
+
+        res.status(200).json({
+            msg: 'note deleted'
+        })
+
+    } catch (e) {
+        console.log(e.message)
+        res.status(500).json({
+            msg: e.message
+        })
+    }
+})
 
 router.get('/api/note/read', async (req, res) => {
 

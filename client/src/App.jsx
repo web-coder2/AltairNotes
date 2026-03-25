@@ -95,7 +95,12 @@ function App() {
 
     <>
 
+      <div class="main-header">
+        <h3 class="header-title">Altair Notes</h3>
+      </div>
+
       <div class='main-container'>
+
         <div class="notes-container">
           <button class="button-dark" onClick={changeShowNoteState}>Создать новое воспоминание</button>
 
@@ -115,7 +120,7 @@ function App() {
           <h2 class="root-title">Заметки Альтаира</h2>
 
           {showNote ? (
-            <Reader date={visibleNote.date} title={visibleNote.title} content={visibleNote.content} />
+            <Reader date={visibleNote.date} title={visibleNote.title} content={visibleNote.content} noteId={visibleNote._id}/>
         ) : (
             <form onSubmit={handleFormSubmit}>
               <input name='date' type='date' />

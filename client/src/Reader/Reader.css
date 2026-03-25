@@ -30,8 +30,17 @@
 
 .reader-date {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding-top: 15px;
   font-size: 0.9em;
   opacity: 0.7;
+}
+
+.reader-btn {
+  background-color: rgb(58, 28, 28);
+  color: white;
+  padding: 10px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
