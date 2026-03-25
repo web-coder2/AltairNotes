@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import axios from 'axios'
 
 
-function Reader({date, title, content, noteId}) {
+function Reader({date, title, content, noteId, onNoteDelete}) {
 
     async function deleteNote() {
         try {
@@ -12,6 +12,12 @@ function Reader({date, title, content, noteId}) {
             let response = await axios.post(path, {
                 noteId: noteId
             })
+
+            // здесь можно в виде аргумента передать функцию типа emit как в vue.js
+            if (onNoteDelete) {
+                onNoteDelete()
+            }
+
         } catch (e) {
             console.log(e.message)
         }
