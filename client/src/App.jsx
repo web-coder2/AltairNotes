@@ -46,6 +46,7 @@ function App() {
       const response = await axios.get('http://localhost:3000/api/note/read')
       setAllNotes(response.data.notes)
       console.log(response.data.notes)
+      setShowNote(false)
     } catch (e) {
       console.log(e.message)
     }
