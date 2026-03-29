@@ -9,6 +9,7 @@ function Notes({ date, title, content }) {
     return (
         <div className="notes-card">
             <h6 className="notes-title">{title}</h6>
+            <p>{content}</p>
             <div className="notes-date">{dayjs(date).format('YYYY-MM-DD')}</div>
         </div>
       )

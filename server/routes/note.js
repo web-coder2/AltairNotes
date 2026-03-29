@@ -54,14 +54,55 @@ router.post('/api/note/delete', async (req, res) => {
     }
 })
 
+router.get('/api/note/getList', async (req, res) => {
+
+    try {
+
+        let notesList = await NoteModel.find()
+
+         notesList = notesList.map((item) => {
+            if (item.content.length > 50) {
+                return {
+                    _id: item._id,
+                    date: item.date,
+                    title: item.title,
+                    content: item.content.slice(0, 50) + '...'
+                };
+            } else {
+                return {
+                    _id: item._id,
+                    date: item.date,
+                    title: item.title,
+                    content: item.content
+                };
+            }
+        });
+
+        res.status(200).json({
+            notes: notesList
+        })
+
+    } catch (e) {
+        console.log(e.message)
+        res.status(500).json({
+            msg: e.message
+        })
+    }
+
+})
+
 router.get('/api/note/read', async (req, res) => {
 
     try {
 
-        const allNotes = await NoteModel.find()
+        const { noteId } = req.query
+
+        const fullNote = await NoteModel.findOne({
+            _id: noteId
+        })
 
         res.status(200).json({
-            notes: allNotes
+            fullNote: fullNote
         })
 
     } catch (e) {

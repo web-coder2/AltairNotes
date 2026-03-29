@@ -25,7 +25,10 @@ function App() {
   }
 
   const setVisibleNotes = (note) => {
-    setVisibleNote(note)
+
+    let newNoteInfo = note
+
+    setVisibleNote(newNoteInfo)
     setShowNote(true)
   }
 
@@ -43,9 +46,12 @@ function App() {
 
   async function getAllNotes() {
     try {
-      const response = await axios.get('http://localhost:3000/api/note/read')
+      const response = await axios.get('http://localhost:3000/api/note/getList')
       setAllNotes(response.data.notes)
       console.log(response.data.notes)
+
+      setVisibleNote(false)
+
     } catch (e) {
       console.log(e.message)
     }
@@ -71,6 +77,7 @@ function App() {
   return (
     <>
       <div className="main-header">
+        <img src="/assets/altair.webp" className='header-img' />
         <h3 className="header-title">Altair Notes</h3>
       </div>
 
@@ -82,7 +89,7 @@ function App() {
 
           {allNotes.map((item, index) => (
             <div key={index} onClick={() => setVisibleNotes(item)}>
-              <Notes date={item.date} title={item.title} />
+              <Notes date={item.date} title={item.title} content={item.content} />
             </div>
           ))}
         </div>
@@ -91,7 +98,7 @@ function App() {
           <h2 className="root-title">Заметки Альтаира</h2>
 
           {showNote && visibleNote ? (
-            <Reader date={visibleNote.date} title={visibleNote.title} content={visibleNote.content} noteId={visibleNote._id} onNoteDelete={getAllNotes} />
+            <Reader key={visibleNote._id} noteId={visibleNote._id} onNoteDelete={getAllNotes} />
           ) : (
             <form onSubmit={handleFormSubmit}>
               <input name="date" type="date" value={formData.date} onChange={handleFormChange} placeholder="Дата" />
