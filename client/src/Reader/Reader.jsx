@@ -1,13 +1,19 @@
 import './Reader.css'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import axios from 'axios'
 
 
-function Reader({date, title, content, noteId, onNoteDelete}) {
+function Reader({noteId, onNoteDelete}) {
 
     const [isEditMode, setIsEditMode] = useState(false)
     const [newContent, setNewContent] = useState('')
+
+    const [noteInfo, setNoteInfo] = useState({
+        title: "",
+        content: "",
+        date: ""
+    })
 
     async function deleteNote() {
         try {
@@ -25,6 +31,27 @@ function Reader({date, title, content, noteId, onNoteDelete}) {
             console.log(e.message)
         }
     }
+
+     async function getNoteInfo() {
+        try {
+          const response = await axios.get('http://localhost:3000/api/note/read', {
+            params: {
+                noteId: noteId
+            }
+          })
+          
+          let noteInfo = response.data.fullNote
+
+          setNoteInfo(noteInfo)
+
+        } catch (e) {
+          console.log(e.message)
+        }
+    }
+
+    useEffect(() => {
+        getNoteInfo()
+      }, [])
 
     async function saveEdit() {
         try {
@@ -57,12 +84,12 @@ function Reader({date, title, content, noteId, onNoteDelete}) {
 
     return (
         <div className="reader-container">
-            <h3 className="reader-title">{title}</h3>
+            <h3 className="reader-title">{noteInfo.title}</h3>
             { isEditMode === false ? 
 
                 (
                     <div className="reader-content">
-                        <p className="reader-text">{content}</p>
+                        <p className="reader-text">{noteInfo.content}</p>
                     </div>
                 ) : (
                     <div class="edit-container">
@@ -79,7 +106,7 @@ function Reader({date, title, content, noteId, onNoteDelete}) {
                     <button class="reader-btn" onClick={deleteNote}>удалить запись</button>
                     <button class="edit-btn" onClick={startEdit}>{ isEditMode ? 'отменить' : 'редактировать' }</button>
                 </div>
-                <p>{dayjs(date).format('YYYY-MM-DD')}</p>
+                <p>{dayjs(noteInfo.date).format('YYYY-MM-DD')}</p>
             </div>
         </div>
     )
