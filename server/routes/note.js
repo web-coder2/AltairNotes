@@ -35,6 +35,32 @@ router.post('/api/note/create', async (req, res) => {
 
 })
 
+router.post('/api/note/edit', async (req, res) => {
+    try {
+
+        const { noteId, newContent } = req.body
+
+        const resultOfUpdate = await NoteModel.findOneAndUpdate(
+                { _id: noteId },
+                { 
+                    $set: {
+                        content: newContent
+                    }
+                }
+            )
+
+        res.status(200).json({
+            msg: 'note edited'
+        })
+
+    } catch (e) {
+        console.log(e.message)
+        res.status(500).json({
+            msg: e.message
+        })
+    }
+})
+
 router.post('/api/note/delete', async (req, res) => {
     try {
 
